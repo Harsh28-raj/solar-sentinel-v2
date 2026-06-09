@@ -8,8 +8,8 @@ from datetime import datetime
 
 app = FastAPI(
     title="SolarSentinel - MagStorm Shield Backend",
-    description="Stage 5: Production-Grade Response Setup with Robust Error Fallbacks & RAM Caching",
-    version="5.0.0"
+    description="Stage 5.1: Production-Grade Response Setup with Enhanced Multi-Route Aviation Analytics",
+    version="5.1.0"
 )
 
 app.add_middleware(
@@ -55,7 +55,6 @@ class MagStormShieldResponse(BaseModel):
 # ==========================================
 # STAGE 5 CORE: Global RAM Cache Protection
 # ==========================================
-# Agar internet chala jaye, toh ye default safe values system ko crash hone se bachayengi
 cached_space_weather_state = {
     "solar_wind_speed": 450.0,
     "kp_index": 2.5,
@@ -70,7 +69,6 @@ async def track_space_weather_pipeline():
     
     while True:
         try:
-            # Timeout ko 8.0 seconds set kiya hai taaki slow internet par pipeline hange na ho
             async with httpx.AsyncClient(timeout=8.0) as client:
                 plasma_response = await client.get(NOAA_PLASMA_URL)
                 if plasma_response.status_code == 200:
@@ -79,7 +77,6 @@ async def track_space_weather_pipeline():
                         try:
                             extracted_speed = float(reading[2])
                             if extracted_speed > 0:
-                                # Data milte hi RAM Cache instantly update hoga
                                 cached_space_weather_state["solar_wind_speed"] = round(extracted_speed, 2)
                                 break
                         except (ValueError, IndexError, TypeError):
@@ -109,13 +106,11 @@ async def track_space_weather_pipeline():
                         except StopIteration:
                             break
                 
-                # Fetch successful hote hi status HEALTHY ho jayega
                 cached_space_weather_state["pipeline_status"] = "HEALTHY"
                 cached_space_weather_state["last_successful_fetch"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
                 print(f"[{datetime.now().strftime('%H:%M:%S')}] [SYNC SUCCESS] Speed: {cached_space_weather_state['solar_wind_speed']} | Kp: {cached_space_weather_state['kp_index']}")
         
         except Exception as e:
-            # STAGE 5 CRASH PROTECTION: Agar net down hua, toh loop crash nahi hoga, cache activate ho jayega
             cached_space_weather_state["pipeline_status"] = "USING_CACHE_FALLBACK"
             print(f"[{datetime.now().strftime('%H:%M:%S')}] [NETWORK WARN] Live fetch failed, serving from internal cache: {e}")
             
@@ -132,7 +127,6 @@ async def get_infrastructure_impact(mode: str = "live"):
         kp = 9.0
         is_simulated = True
     else:
-        # Normal mode mein data direct global RAM cache se uthaya jayega
         speed = cached_space_weather_state["solar_wind_speed"]
         kp = cached_space_weather_state["kp_index"]
         is_simulated = False
@@ -150,7 +144,16 @@ async def get_infrastructure_impact(mode: str = "live"):
             {"lat": 26.1445, "lng": 91.7362, "region": "Northeast Grid", "alert_level": "GREEN", "value": 0.1}
         ]
         actions = ["All grids operational. Systems nominal."]
-        aviation = [{"route_id": "IN-US-POLAR", "status": "NOMINAL", "action": "Proceed with planned flight path"}]
+        
+        # ----------------------------------------------------
+        # MULTI-ROUTE PRODUCTION DATA (NOMINAL MODE)
+        # ----------------------------------------------------
+        aviation = [
+            { "route_id": "IN-US-POLAR", "status": "NOMINAL", "action": "Proceed with planned flight path" },
+            { "route_id": "IN-EU-NORTH", "status": "NOMINAL", "action": "Optimal signal strength. Normal operations." },
+            { "route_id": "DEL-LON-TRANS", "status": "NOMINAL", "action": "HF Radio communication stable." },
+            { "route_id": "MUM-NYC-POLAR", "status": "NOMINAL", "action": "No solar radiation risk detected." }
+        ]
     else:
         if 5.0 <= kp < 7.0:
             s_class = "G1-G2 (Moderate Storm)"
@@ -158,16 +161,12 @@ async def get_infrastructure_impact(mode: str = "live"):
             alert_status = "YELLOW"
             grid_val = 0.5
             action_text = "Monitor transformer temperatures closely."
-            flight_status = "MONITOR"
-            flight_action = "Expect minor HF propagation delay."
         else:
             s_class = "G4-G5 (Catastrophic Storm)"
             s_color = "#8B0000"
             alert_status = "RED"
             grid_val = 1.0
             action_text = "CRITICAL RISK: Isolate Northern transformer links. Reduce Delhi grid load by 30% NOW."
-            flight_status = "RE-ROUTED"
-            flight_action = "Polar route closed. Divert flights to Mid-Latitude track."
 
         grid_triggers = [
             {"lat": 28.7041, "lng": 77.1025, "region": "Delhi NCR", "alert_level": alert_status, "value": grid_val},
@@ -177,11 +176,30 @@ async def get_infrastructure_impact(mode: str = "live"):
             f"[GRID ALERT] {action_text}",
             "[INDUCED CURRENT] Geomagnetically Induced Currents (GIC) spiking above 45 Amps."
         ]
-        aviation = [{"route_id": "IN-US-POLAR", "status": flight_status, "action": flight_action}]
+        
+        # ----------------------------------------------------
+        # MULTI-ROUTE PRODUCTION DATA (STORM CONDITIONS)
+        # ----------------------------------------------------
+        if kp >= 7.0:
+            # Extreme Catastrophic Storm Scenario
+            aviation = [
+                { "route_id": "IN-US-POLAR", "status": "RE-ROUTED", "action": "CRITICAL: High radiation risk over North Pole. Divert to Sub-Polar Route B." },
+                { "route_id": "IN-EU-NORTH", "status": "WARNING", "action": "HF Radio Blackout expected. Monitor backup satellite comms." },
+                { "route_id": "DEL-LON-TRANS", "status": "RE-ROUTED", "action": "ALERT: Cosmic ray influx spiking. Divert 5 degrees South." },
+                { "route_id": "MUM-NYC-POLAR", "status": "NOMINAL", "action": "Safe route altitude maintained. Proceed with caution." }
+            ]
+        else:
+            # Moderate Storm Scenario
+            aviation = [
+                { "route_id": "IN-US-POLAR", "status": "MONITOR", "action": "Expect minor HF propagation delay." },
+                { "route_id": "IN-EU-NORTH", "status": "NOMINAL", "action": "Proceed with caution. Solar wind velocity elevated." },
+                { "route_id": "DEL-LON-TRANS", "status": "MONITOR", "action": "Watch for intermittent signal fading." },
+                { "route_id": "MUM-NYC-POLAR", "status": "NOMINAL", "action": "Route clear. Solar particle flux within bounds." }
+            ]
 
     return {
         "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "pipeline_status": cached_space_weather_state["pipeline_status"], # Frontend yahan se light status padhega
+        "pipeline_status": cached_space_weather_state["pipeline_status"],
         "simulation_active": is_simulated,
         "live_telemetry": {"speed": f"{speed} km/s", "kp_index": kp},
         "storm_metadata": {
