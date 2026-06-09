@@ -8,8 +8,8 @@ from datetime import datetime
 
 app = FastAPI(
     title="SolarSentinel - MagStorm Shield Backend",
-    description="Stage 5.1: Production-Grade Response Setup with Enhanced Multi-Route Aviation Analytics",
-    version="5.1.0"
+    description="Stage 5.3: 14-Node Advanced Grid Heatmap & Multi-Route Aviation Infrastructure Pipeline",
+    version="5.3.0"
 )
 
 app.add_middleware(
@@ -139,15 +139,26 @@ async def get_infrastructure_impact(mode: str = "live"):
     if kp < 5.0:
         s_class = "Nominal"
         s_color = "#00FF00"
-        grid_triggers = [
-            {"lat": 28.7041, "lng": 77.1025, "region": "Delhi NCR", "alert_level": "GREEN", "value": 0.1},
-            {"lat": 26.1445, "lng": 91.7362, "region": "Northeast Grid", "alert_level": "GREEN", "value": 0.1}
-        ]
-        actions = ["All grids operational. Systems nominal."]
         
-        # ----------------------------------------------------
-        # MULTI-ROUTE PRODUCTION DATA (NOMINAL MODE)
-        # ----------------------------------------------------
+        # 14 Full Active Grids Mapping (All Green in Nominal Mode)
+        grid_triggers = [
+            {"lat": 28.7041, "lng": 77.1025, "region": "Northern Grid (Delhi NCR)", "alert_level": "GREEN", "value": 0.1},
+            {"lat": 26.1445, "lng": 91.7362, "region": "Northeastern Grid (Guwahati)", "alert_level": "GREEN", "value": 0.1},
+            {"lat": 19.0760, "lng": 72.8777, "region": "Western Grid (Mumbai)", "alert_level": "GREEN", "value": 0.12},
+            {"lat": 12.9716, "lng": 77.5946, "region": "Southern Grid (Bengaluru)", "alert_level": "GREEN", "value": 0.08},
+            {"lat": 22.5726, "lng": 88.3639, "region": "Eastern Grid (Kolkata)", "alert_level": "GREEN", "value": 0.15},
+            {"lat": 17.3850, "lng": 78.4867, "region": "Central Grid (Hyderabad)", "alert_level": "GREEN", "value": 0.11},
+            {"lat": 34.0837, "lng": 74.7973, "region": "Kashmir Sub-Grid (Srinagar)", "alert_level": "GREEN", "value": 0.05},
+            {"lat": 13.0827, "lng": 80.2707, "region": "Tamil Nadu Link (Chennai)", "alert_level": "GREEN", "value": 0.07},
+            {"lat": 23.0225, "lng": 72.5714, "region": "Gujarat Corridor (Ahmedabad)", "alert_level": "GREEN", "value": 0.1},
+            {"lat": 20.2961, "lng": 85.8245, "region": "Odisha Coastal Node (Bhubaneswar)", "alert_level": "GREEN", "value": 0.12},
+            {"lat": 26.1158, "lng": 91.7086, "region": "Assam Hub Grid (Dispur)", "alert_level": "GREEN", "value": 0.09},
+            {"lat": 32.7266, "lng": 74.8570, "region": "Duggar Sector Grid (Jammu)", "alert_level": "GREEN", "value": 0.06},
+            {"lat": 11.6234, "lng": 92.7265, "region": "Bay of Bengal Telemetry (Port Blair)", "alert_level": "GREEN", "value": 0.04},
+            {"lat": 9.9312,  "lng": 76.2673, "region": "Kerala Coastal Grid (Kochi)", "alert_level": "GREEN", "value": 0.05}
+        ]
+        actions = ["All grids operational. National infrastructure systems nominal."]
+        
         aviation = [
             { "route_id": "IN-US-POLAR", "status": "NOMINAL", "action": "Proceed with planned flight path" },
             { "route_id": "IN-EU-NORTH", "status": "NOMINAL", "action": "Optimal signal strength. Normal operations." },
@@ -158,30 +169,54 @@ async def get_infrastructure_impact(mode: str = "live"):
         if 5.0 <= kp < 7.0:
             s_class = "G1-G2 (Moderate Storm)"
             s_color = "#FFA500"
-            alert_status = "YELLOW"
-            grid_val = 0.5
-            action_text = "Monitor transformer temperatures closely."
+            action_text = "Monitor transformer temperatures closely across high-latitude nodes."
+            
+            # Moderate State Distribution
+            grid_triggers = [
+                {"lat": 28.7041, "lng": 77.1025, "region": "Northern Grid (Delhi NCR)", "alert_level": "YELLOW", "value": 0.5},
+                {"lat": 26.1445, "lng": 91.7362, "region": "Northeastern Grid (Guwahati)", "alert_level": "YELLOW", "value": 0.5},
+                {"lat": 22.5726, "lng": 88.3639, "region": "Eastern Grid (Kolkata)", "alert_level": "YELLOW", "value": 0.4},
+                {"lat": 34.0837, "lng": 74.7973, "region": "Kashmir Sub-Grid (Srinagar)", "alert_level": "YELLOW", "value": 0.6},
+                {"lat": 32.7266, "lng": 74.8570, "region": "Duggar Sector Grid (Jammu)", "alert_level": "YELLOW", "value": 0.6},
+                {"lat": 26.1158, "lng": 91.7086, "region": "Assam Hub Grid (Dispur)", "alert_level": "YELLOW", "value": 0.5},
+                {"lat": 23.0225, "lng": 72.5714, "region": "Gujarat Corridor (Ahmedabad)", "alert_level": "GREEN", "value": 0.2},
+                {"lat": 19.0760, "lng": 72.8777, "region": "Western Grid (Mumbai)", "alert_level": "GREEN", "value": 0.18},
+                {"lat": 17.3850, "lng": 78.4867, "region": "Central Grid (Hyderabad)", "alert_level": "GREEN", "value": 0.15},
+                {"lat": 20.2961, "lng": 85.8245, "region": "Odisha Coastal Node (Bhubaneswar)", "alert_level": "GREEN", "value": 0.2},
+                {"lat": 12.9716, "lng": 77.5946, "region": "Southern Grid (Bengaluru)", "alert_level": "GREEN", "value": 0.1},
+                {"lat": 13.0827, "lng": 80.2707, "region": "Tamil Nadu Link (Chennai)", "alert_level": "GREEN", "value": 0.1},
+                {"lat": 11.6234, "lng": 92.7265, "region": "Bay of Bengal Telemetry (Port Blair)", "alert_level": "GREEN", "value": 0.08},
+                {"lat": 9.9312,  "lng": 76.2673, "region": "Kerala Coastal Grid (Kochi)", "alert_level": "GREEN", "value": 0.07}
+            ]
         else:
             s_class = "G4-G5 (Catastrophic Storm)"
             s_color = "#8B0000"
-            alert_status = "RED"
-            grid_val = 1.0
-            action_text = "CRITICAL RISK: Isolate Northern transformer links. Reduce Delhi grid load by 30% NOW."
+            action_text = "CRITICAL RISK: Isolate Northern & High-Latitude lines immediately. Shed load by 35%."
+            
+            # Catastrophic State Distribution (Realistic physics mapping based on latitude)
+            grid_triggers = [
+                {"lat": 28.7041, "lng": 77.1025, "region": "Northern Grid (Delhi NCR)", "alert_level": "RED", "value": 1.0},
+                {"lat": 26.1445, "lng": 91.7362, "region": "Northeastern Grid (Guwahati)", "alert_level": "RED", "value": 1.0},
+                {"lat": 34.0837, "lng": 74.7973, "region": "Kashmir Sub-Grid (Srinagar)", "alert_level": "RED", "value": 1.0},
+                {"lat": 32.7266, "lng": 74.8570, "region": "Duggar Sector Grid (Jammu)", "alert_level": "RED", "value": 1.0},
+                {"lat": 26.1158, "lng": 91.7086, "region": "Assam Hub Grid (Dispur)", "alert_level": "RED", "value": 0.98},
+                {"lat": 22.5726, "lng": 88.3639, "region": "Eastern Grid (Kolkata)", "alert_level": "YELLOW", "value": 0.65},
+                {"lat": 23.0225, "lng": 72.5714, "region": "Gujarat Corridor (Ahmedabad)", "alert_level": "YELLOW", "value": 0.55},
+                {"lat": 19.0760, "lng": 72.8777, "region": "Western Grid (Mumbai)", "alert_level": "YELLOW", "value": 0.5},
+                {"lat": 20.2961, "lng": 85.8245, "region": "Odisha Coastal Node (Bhubaneswar)", "alert_level": "YELLOW", "value": 0.45},
+                {"lat": 17.3850, "lng": 78.4867, "region": "Central Grid (Hyderabad)", "alert_level": "GREEN", "value": 0.25},
+                {"lat": 12.9716, "lng": 77.5946, "region": "Southern Grid (Bengaluru)", "alert_level": "GREEN", "value": 0.18},
+                {"lat": 13.0827, "lng": 80.2707, "region": "Tamil Nadu Link (Chennai)", "alert_level": "GREEN", "value": 0.15},
+                {"lat": 11.6234, "lng": 92.7265, "region": "Bay of Bengal Telemetry (Port Blair)", "alert_level": "GREEN", "value": 0.1},
+                {"lat": 9.9312,  "lng": 76.2673, "region": "Kerala Coastal Grid (Kochi)", "alert_level": "GREEN", "value": 0.1}
+            ]
 
-        grid_triggers = [
-            {"lat": 28.7041, "lng": 77.1025, "region": "Delhi NCR", "alert_level": alert_status, "value": grid_val},
-            {"lat": 26.1445, "lng": 91.7362, "region": "Northeast Grid", "alert_level": alert_status, "value": grid_val}
-        ]
         actions = [
             f"[GRID ALERT] {action_text}",
-            "[INDUCED CURRENT] Geomagnetically Induced Currents (GIC) spiking above 45 Amps."
+            "[INDUCED CURRENT] Geomagnetically Induced Currents (GIC) spiking drastically on ground assets."
         ]
         
-        # ----------------------------------------------------
-        # MULTI-ROUTE PRODUCTION DATA (STORM CONDITIONS)
-        # ----------------------------------------------------
         if kp >= 7.0:
-            # Extreme Catastrophic Storm Scenario
             aviation = [
                 { "route_id": "IN-US-POLAR", "status": "RE-ROUTED", "action": "CRITICAL: High radiation risk over North Pole. Divert to Sub-Polar Route B." },
                 { "route_id": "IN-EU-NORTH", "status": "WARNING", "action": "HF Radio Blackout expected. Monitor backup satellite comms." },
@@ -189,7 +224,6 @@ async def get_infrastructure_impact(mode: str = "live"):
                 { "route_id": "MUM-NYC-POLAR", "status": "NOMINAL", "action": "Safe route altitude maintained. Proceed with caution." }
             ]
         else:
-            # Moderate Storm Scenario
             aviation = [
                 { "route_id": "IN-US-POLAR", "status": "MONITOR", "action": "Expect minor HF propagation delay." },
                 { "route_id": "IN-EU-NORTH", "status": "NOMINAL", "action": "Proceed with caution. Solar wind velocity elevated." },
