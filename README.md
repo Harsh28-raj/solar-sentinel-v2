@@ -6,7 +6,7 @@
 
 [![Backend](https://img.shields.io/badge/BACKEND-LIVE_ON_RENDER-00C853?style=for-the-badge&logo=render&logoColor=white)](https://solar-sentinel-v3.onrender.com)
 [![Swagger Docs](https://img.shields.io/badge/API_DOCS-SWAGGER-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://solar-sentinel-v3.onrender.com/docs)
-[![Frontend](https://img.shields.io/badge/FRONTEND-COMING_SOON-00B0FF?style=for-the-badge&logo=react&logoColor=white)](#)
+[![Frontend](https://img.shields.io/badge/FRONTEND-LIVE_ON_VERCEL-00C853?style=for-the-badge&logo=vercel&logoColor=white)](https://solar-senital.vercel.app/)
 [![NASA](https://img.shields.io/badge/DATA-NASA_APIs-1A237E?style=for-the-badge&logo=nasa&logoColor=white)](https://soho.nascom.nasa.gov/)
 [![NOAA](https://img.shields.io/badge/DATA-NOAA_GOES-0D47A1?style=for-the-badge)](https://www.swpc.noaa.gov/)
 
@@ -14,8 +14,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Async-009688?style=flat-square&logo=fastapi&logoColor=white)](https://solar-sentinel-v3.onrender.com/docs)
-[![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat-square&logo=react&logoColor=black)](#)
-[![Three.js](https://img.shields.io/badge/Three.js-3D_Globe-black?style=flat-square&logo=three.js&logoColor=white)](#)
+[![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat-square&logo=react&logoColor=black)](https://solar-senital.vercel.app/)
+[![Three.js](https://img.shields.io/badge/Three.js-3D_Globe-black?style=flat-square&logo=three.js&logoColor=white)](https://solar-senital.vercel.app/)
 
 <br>
 
@@ -41,7 +41,7 @@ This is not a dashboard. This is an early warning system.
 | :--- | :---: | :--- |
 | ⚡ Backend API | `🟢 Operational` | [solar-sentinel-v3.onrender.com](https://solar-sentinel-v3.onrender.com) |
 | 📖 Swagger Docs | `📖 Active` | [/docs](https://solar-sentinel-v3.onrender.com/docs) |
-| 🌍 Frontend Dashboard | `🔧 Coming Soon` | Production deploy in progress |
+| 🌍 Frontend Dashboard | `🟢 Operational` | [solar-senital.vercel.app](https://solar-senital.vercel.app/) |
 
 ---
 
@@ -173,7 +173,7 @@ No static map. No manual refresh. The globe reacts as space weather evolves.
 | Backend | FastAPI, Python 3.10+, httpx async workers |
 | ML / CV | PyTorch, OpenCV (`opencv-python-headless`), CNN, Time-Series |
 | Data Sources | NASA SOHO API, NASA DSCOVR API, NOAA GOES X-Ray Flux API |
-| Deployment | Render (Backend), Vercel (Frontend — coming soon) |
+| Deployment | Render (Backend), Vercel (Frontend) |
 
 ---
 
@@ -195,7 +195,7 @@ That's the difference between a disruption and a disaster.
 ## 👨‍💻 Author
 
 **Harsh Raj** — [@Harsh28-raj](https://github.com/Harsh28-raj)
-AI/ML Engineer · B.Tech CSE (AI/ML) · AKGEC, 2028
+AI/ML Engineer · B.Tech CSE · AKGEC, 2028
 Machine Learning Centre of Excellence (MLCOE)
 
 ---
